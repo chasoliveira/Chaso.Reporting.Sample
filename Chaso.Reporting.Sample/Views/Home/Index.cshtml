@@ -1,0 +1,32 @@
+﻿@model Chaso.Reporting.Sample.Models.ReportDirectory
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Chaso.Reporting for ReportViewer</h1>
+    <p class="lead">Chaso.Reporting.Sample, Show how works Chaso.Reporting component, that is a full-featured reporting solution for Windows Forms, ASP.NET, MVC. It can be used in Microsoft Visual Studio 2005-2017. Supports .Net Framework 4.x.</p>
+</div>
+@helper RenderDirectory(Chaso.Reporting.Sample.Models.ReportDirectory reportDirectory)
+    {
+        <ul class="list-group">
+            <li class="list-group-item">
+                @reportDirectory.Name
+                <ul class="list-group">
+                    @foreach (var item in reportDirectory.ReportFiles)
+                    {
+                        <li class="list-group-item  list-group-item-info">
+                            <a href="/Home/Load/?reportName=@item.FileName" class="btn-link">@item.FileName <span class="pull-right">@item.LastWriteTime <span>@item.Length (bytes)</span></span></a>
+                        </li>
+                    }
+                </ul>
+                @foreach (var item in reportDirectory.SubDirectories)
+                {
+                    @RenderDirectory(item)
+                }
+            </li>
+        </ul>
+}
+<div class="row">
+    @RenderDirectory(Model)
+</div>

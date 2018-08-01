@@ -1,0 +1,43 @@
+﻿@using ReportViewerForMvc
+@using System.Web.UI.WebControls
+@model  Microsoft.Reporting.WebForms.ReportViewer
+@{
+    Layout = null;
+    IList<Chaso.Reporting.ErrorMessage> errorMessages = ViewBag.Erros as IList<Chaso.Reporting.ErrorMessage>;
+}
+<div class="row-fluid">
+    @{
+        try
+        {
+            if (errorMessages != null && errorMessages.Any())
+            {
+                foreach (var erro in errorMessages)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@erro.Message</strong>
+                        <p>Informe os dados abaixo para o suporte. <a href=""></a> </p>
+                        <p>@erro.StackTrace</p>
+                    </div>
+                }
+            }
+            else
+            {
+                @Html.ReportViewer(Model, new { scrolling = "yes" })
+            }
+        }
+        catch (Exception exception)
+        {
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@exception.Message</strong>
+                <p>Informe os dados abaixo para o suporte. <a href=""></a> </p>
+                <p>@exception.InnerException</p>
+                <p>@exception.Source</p>
+            </div>
+        }
+    }
+</div>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/chaso-report-engine/render-report-viewer.js"></script>
+}

@@ -1,0 +1,54 @@
+﻿@using Chaso.Reporting.Sample.Helpers
+@model IEnumerable<Chaso.Reporting.RDL.ReportParameter>
+@{
+    ViewBag.Title = "Report " + ViewBag.ReportName;
+    IList<Chaso.Reporting.ErrorMessage> errorMessages = ViewBag.Erros as IList<Chaso.Reporting.ErrorMessage>;
+
+}
+
+<h2>@ViewBag.ReportName</h2>
+<div class="row">
+    <div class="col-md-12">
+        @if (errorMessages != null && errorMessages.Any())
+        {
+            foreach (var erro in errorMessages)
+            {
+                <div id="alertaPermissao" class="alert alert-error" style="opacity: 1; display: block;">
+                    <div class="row-fluid">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        <strong>@erro.Message</strong>
+                        <p>Note the data below for support.<a href=""></a> </p>
+                        <p>@erro.StackTrace</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="button" data-toggle="collapse" data-target="#bodyFilters" aria-expanded="false" aria-controls="collapseFilters">Filters</div>
+            <div id="bodyFilters" class="panel-body collapse in" aria-controls="collapseFilters">
+                <form name="formRenderReport">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="hidden" name="reportname" value="@ViewBag.ReportName" />
+                            @foreach (var param in Model)
+                            {
+                                @Html.ReportFilter(param)
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 form-group">
+        <button type="button" class="btn btn-primary" title="Executar o Relatório" name="btnExecute" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading..."><span class="fa fa-print"></span>Execute</button>
+    </div>
+    <div class="col-md-12" id="divReport">
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Scripts/chaso-reporting/render-report-viewer.js" type="text/javascript"></script>
+    <script src="~/Scripts/chaso-reporting/report-load.js" type="text/javascript"></script>
+}

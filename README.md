@@ -592,9 +592,9 @@ INSERT INTO Product VALUES(3, 'Product Five', 7.5);
 INSERT INTO Product VALUES(3, 'Product Six', 8.6);
 ```
 The next step is to create our first rdl file.
-First download the [Microsoft ReportBuilder] installation file (https://www.microsoft.com/en-us/download/details.aspx?id=53613).
+First download the [Microsoft ReportBuilder](https://www.microsoft.com/en-us/download/details.aspx?id=53613)  installation file.
 After installing, open the executable and create an empty report.
-You can find more information on creating and reporting on this site [report-builder-tutorials] (https://docs.microsoft.com/en/sql/reporting-services/report-builder-tutorials?view= sql-server-2017)
+You can find more information on creating and reporting on this site [report-builder-tutorials](https://docs.microsoft.com/en/sql/reporting-services/report-builder-tutorials?view=sql-server-2017)
 
 For finish, build your application, run it and enjoy!
 

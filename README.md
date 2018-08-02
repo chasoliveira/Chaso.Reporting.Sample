@@ -1,49 +1,69 @@
-Chaso.Reporting.Sample
+# Chaso.Reporting.Sample
 
-This articles describe how to use the library Chaso.Reporting. 
-For this sample area used the following structure:
+This article describes how to use the [Chaso.Reporting][Chaso Reporting] library. 
+For this example the following structure was used:
 
-Visual Studio Community 2017
-ASP.Net MVC
-ReportViwerForMvc14
-Chaso.Reporting
+ - Visual Studio Community 2017
+ - ASP.Net MVC
+ - ReportViwerForMvc (Modified to [Chaso.ReportViewerForMvc][Chaso ReportViewerForMvc])
+ - [Chaso.Reporting][Chaso Reporting]
 
-if you doens't have an already project, starts creane new one. Open Visual Studio.
+# New Project!
+
+If you do not have a project, start by creating a new one. Open Visual Studio.
+
 1) File -> New -> Project.
-2) Visual C# -> Web -> ASP.NET Web Application (.Net Framework)
+2) Visual C # -> Web -> ASP.NET Web Application (.Net Framework)
 3) Give a name (My Chaso.Reporting)
-4) Select the template MVC, without authentication.
+4) Select the MVC template, without authentication.
 
-When the process of creation new project finish, you will need add some thirdth librarires.
-Click with right button in project name on Project Solution, select Manage NuGet Packages option, see image 01.
+![Create a new Project](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/images/01-CreateProject.png)
+![Select MVC Project type](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/images/02-CreateProject_MVC.png)
+
+You can also clone this sample from GitHub [Chaso.Reporting.Sample][Chaso Reporting Sample])
+
+When the project creation process is finished, you will need to add some third-party libraries.
+Right-click the project name in the Project Solution panel, select the Manage NuGet Packages option, see image below.
+![Add Nuget](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/images/ManageNugetPackage.png)
 
 1) Search for Chaso.ReportViewerForMvc and install
-	Install-Package Chaso.ReportViewerForMvc -Version 1.1.1.1
 2) Search for Chaso.Reporting and install
 
-Change file ReportViwerWebForm.aspx 
-	from 
-		<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
-	to 
-		<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+Or you can install direct by console:
+```sh
+Install-Package Chaso.ReportViewerForMvc -Version 1.1.1.1
+Install-Package Chaso.Reporting -Version 1.1.1.2
+```
 
-Add some style and meta tag:
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <style>
-        html, body, form, #div1 {
-            height: 100%;
-        }
-    </style>
-	
-Add script referece after asp:ScriptManager tag.
-	<script src="/Scripts/chaso-reporting/render-report-viewer.js" type="text/javascript"></script>
-
-Change Web.Config file. Remove any referece for Microsoft.ReportViewer.WebForms in 11 version.
-See in this repository how this file look like.
+Change content of file `ReportViwerWebForm.aspx`:
+From:
+```sh
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+```
+To:
+```sh
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+```
+Add some style and meta tag between `head` tag:
+```sh
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<style>
+    html, body, form, #div1 {
+        height: 100%;
+    }
+</style>
+```
+Add script reference after `asp:ScriptManager` tag.
+```sh
+<script src="/Scripts/chaso-reporting/render-report-viewer.js" type="text/javascript"></script>
+```
+Change `Web.Config` file. Remove any reference for `Microsoft.ReportViewer.WebForms` in 11 version.
+This reference must point to 14 version.
+See in this repository how this [Web.config](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/Chaso.Reporting.Sample/Web.config) look like.
 
 Creating script for replace default ScriptManager of ReportViwerForMvc.
-On Script folder crete new folder as chaso-reporting, inside of this create new js file as render-report-viewer.js with this content.
-
+On Script folder crete new folder as `chaso-reporting`, inside of this create new js file as `render-report-viewer.js` with below content.
+```sh
 var ReportViewerForMvc = (new function () {
 
     var _iframeId = null;
@@ -84,9 +104,10 @@ var ReportViewerForMvc = (new function () {
 }());
 
 ReportViewerForMvc.setAutoSize();
+```
 
-Also you need other script to render assyncronously the report, create a js file called as 'report-load.js' with the following content;
-
+Also you need other script to render asynchronously the report, create an js file called as `report-load.js` with the following content:
+```sh
 (function ($) {
     "use strict";
 
@@ -179,12 +200,11 @@ Also you need other script to render assyncronously the report, create a js file
         }
     });
 })(jQuery);
+```
 
-
-
-in this project the rdls file will be placed in App_Rdl folder, so let´s create this directory on project root and reader in list al files in this folder.
-To help us on listing all rdl's files, we needs to create two classes 'ReportFile' and 'ReportDirectory'.
-
+In this project the rdl's file will be placed in `App_Rdl` folder, so let´s create this directory on root of project.
+To help us on listing all rdl's files, we needs to create two classes `ReportFile` and `ReportDirectory`.
+```sh
  public class ReportDirectory
     {
         public ReportDirectory(string directory)
@@ -223,7 +243,8 @@ To help us on listing all rdl's files, we needs to create two classes 'ReportFil
             }
         }
     }
-	
+```
+```sh
     public class ReportFile
     {
         public ReportFile(FileInfo fi)
@@ -241,10 +262,10 @@ To help us on listing all rdl's files, we needs to create two classes 'ReportFil
         public DateTime LastWriteTime { get; private set; }
         public long Length { get; private set; }
     }
-
-now we need to create some actions in home controller to show a list of rdl's files, to render a ReportViewer when an rdl is selected, and in case the file has some parameters, one action to show than.
-First let´s create an class to fabrick an instance of Chaso.Reporting.Engine, this will load rdl, fill with parameters and return the ReportViewer ready to show on component ReportViewerForMvc.
-
+```
+Now we need to create some actions in the home driver to show a list of rdl files, to render a `ReportViewer` when an rdl is selected, and in case the file has some parameters, an action to show them.
+First let's create a class to fabricate an instance of `Chaso.Reporting.Engine`, this will load the rdl, fill with parameters and return the` ReportViewer` ready to display in the `ReportViewerForMvc` component.
+```sh
 public class ReportFactory
     {
         Chaso.Reporting.IEngine _engine;
@@ -285,10 +306,10 @@ public class ReportFactory
             return this._engine.ReportViewer();
         }
     }
+```
 	
-	
-Now Open HomeController and create the following actions:
-
+Agora abra o `HomeController` e crie as seguintes ações:
+```sh
         private string ReportPath() { return Server.MapPath("~/App_Rdl"); }
         public ActionResult Index()
         {
@@ -330,10 +351,10 @@ Now Open HomeController and create the following actions:
 
             return View(reportViewer);
         }
-		
-In View's Home folder create respectives cshtml file for each action previously created.
-
-Index.cshtml
+```
+In `Home` folder inside of `Views` create respectives cshtml file for each action previously created.
+ - Index.cshtml
+```sh
 @model Chaso.Reporting.Web.Models.ReportDirectory
 @{
     ViewBag.Title = "Home Page";
@@ -366,10 +387,10 @@ Index.cshtml
 <div class="row">
     @RenderDirectory(Model)
 </div>
+```
 
-
-Load.cshtml
-
+ - Load.cshtml
+```sh
 @using Chaso.Reporting.Web.Helpers
 @model IEnumerable<Chaso.Reporting.RDL.ReportParameter>
 @{
@@ -424,10 +445,10 @@ Load.cshtml
     <script src="~/Scripts/chaso-reporting/render-report-viewer.js" type="text/javascript"></script>
     <script src="~/Scripts/chaso-reporting/report-load.js" type="text/javascript"></script>
 }
+```
 
-
-Render.cshtml
-
+ - Render.cshtml
+```sh
 @using ReportViewerForMvc
 @using System.Web.UI.WebControls
 @model  Microsoft.Reporting.WebForms.ReportViewer
@@ -471,9 +492,10 @@ Render.cshtml
 @section Scripts{
     <script type="text/javascript" src="~/Scripts/chaso-report-engine/render-report-viewer.js"> </script>
 }
+```
 
-To help us with report parameters let's create an HtmlHelper, in root  directory create an folder called Helpers, inside of it create the following class.
-
+To help us with report parameters let's create an HtmlHelper, in root  directory create an folder called `Helpers`, inside of it create the following class.
+```sh
     public static class HtmlHelperFilter
     {
         public static MvcHtmlString ReportFilter(this HtmlHelper html, Chaso.Reporting.RDL.ReportParameter param)
@@ -532,12 +554,15 @@ To help us with report parameters let's create an HtmlHelper, in root  directory
         }
 
     }
-	
+```
+
 Let's create an database, for this sample we can create a compact sql database. or uou can use your owner database.
-Clique with right button on App_Data on root project, select option Visual C#-> Data -> SQL Server Database. named as ChasoDB.mdf.
+Clique with right button on `App_Data` on root project, select option:
+* Visual C#-> Data -> SQL Server Database. 
+* Named as `ChasoDB.mdf`.
 
 After process open with your prefered SQL Manager and create the following tables.
-
+```sh
 CREATE TABLE [dbo].[Category]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
@@ -552,9 +577,9 @@ CREATE TABLE [dbo].[Product]
 	[Value] decimal(18,4) NOT NULL,
 	CONSTRAINT [FK_Category_Project] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[Category] ([Id])
 )
-
+```
 Insert the following datas:
-
+```sh
 INSERT INTO Category VALUES('Category One');
 INSERT INTO Category VALUES('Category Two');
 INSERT INTO Category VALUES('Category Three');
@@ -565,10 +590,24 @@ INSERT INTO Product VALUES(2, 'Product Three', 5.3);
 INSERT INTO Product VALUES(2, 'Product Four', 6.4);
 INSERT INTO Product VALUES(3, 'Product Five', 7.5);
 INSERT INTO Product VALUES(3, 'Product Six', 8.6);
+```
+The next step is to create our first rdl file.
+First download the [Microsoft ReportBuilder] installation file (https://www.microsoft.com/en-us/download/details.aspx?id=53613).
+After installing, open the executable and create an empty report.
+You can find more information on creating and reporting on this site [report-builder-tutorials] (https://docs.microsoft.com/en/sql/reporting-services/report-builder-tutorials?view= sql-server-2017)
 
-The next step is create ower first rdl file.
-First download the install file of Microsoft ReportBuilder https://www.microsoft.com/en-us/download/details.aspx?id=53613.
-After install open the exectable and create an empty report.
-You can find more information abou create and design an report on this site https://docs.microsoft.com/pt-br/sql/reporting-services/report-builder-tutorials?view=sql-server-2017
+For finish, build your application, run it and enjoy!
+
+License
+----
+
+MIT
 
 
+**Free Software, Hell Yeah!**
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+
+   [Chaso Reporting]: <https://github.com/chasoliveira/Chaso.Reporting>
+   [Chaso Reporting Sample]: <https://github.com/chasoliveira/Chaso.Reporting.Sample>
+   [Chaso ReportViewerForMvc]: <https://github.com/chasoliveira/Chaso.ReportViwerForMvc>

@@ -597,6 +597,9 @@ After installing, open the executable and create an empty report.
 You can find more information on creating and reporting on this site [report-builder-tutorials](https://docs.microsoft.com/en/sql/reporting-services/report-builder-tutorials?view=sql-server-2017)
 
 For finish, build your application, run it and enjoy!
+![Running Project](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/images/Running-list.png)
+![Running Project](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/images/Running-Selected.png)
+![Running Project](https://github.com/chasoliveira/Chaso.Reporting.Sample/blob/master/images/Running-Showing.png)
 
 License
 ----
